@@ -1,0 +1,139 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Phaser - Making your first game, part 1</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(400, 250, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+
+	game.load.image('obstacle', 'assets/obstacle.png');
+	game.load.image('player', 'assets/star.png');
+
+}
+
+//variables
+var player;
+var obstacle;
+var obstacles; // used for manipulating obstacle objects
+var cursors; // keyboard presses
+
+var jumpTime = 0;
+var createObstacleTime = 0;
+
+var score = 0;
+var scoreText;
+var continueText;
+
+function create() {
+
+	//enable arcade physics
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+
+	//player
+	{
+	//player sprite
+	player = game.add.sprite(32, game.world.height / 2,'player');
+	
+	//enable player physics
+	game.physics.arcade.enable(player);
+	
+	//player physics properties
+	player.body.gravity.y = 200;
+	}
+	
+	//obstacles
+	obstacles = game.add.group();
+	obstacles.enableBody = true;
+
+	//keyboard controls
+    cursors = game.input.keyboard.createCursorKeys();
+	
+	//score text
+	scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });
+
+}
+
+function update() {
+
+	game.physics.arcade.collide(player, obstacles);
+
+	//player movement
+	{
+		//limits jumping
+		if (game.time.now > jumpTime)
+		{
+			if (cursors.up.isDown)
+			{
+				player.body.velocity.y = -100;
+				jumpTime = game.time.now + 500;
+			}
+		}
+	}
+	
+	//creates obstacles
+	if (player.alive)
+	{
+		if (game.time.now > createObstacleTime)
+		{
+			obstacle = obstacles.create(game.world.width / 2, 0, 'obstacle');
+			obstacle.body.immovable = true;
+			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstacle.height, 'obstacle');
+			obstacle.body.immovable = true;
+			createObstacleTime = game.time.now + 3000;
+		}
+	}
+	
+	//moves obstacles
+	for (var i = 0; i < obstacles.length; i++)
+	{
+		obstacles.getAt(i).body.velocity.x = -50;
+	}
+	
+	//kills player
+	if (player.x < -25 || player.y < 0 || player.y > game.world.height && player.alive)
+	{
+		kill();
+	}
+	
+	//reset game
+	// GRAB YOUR FLYSWATTERS CHILDREN, THIS CONTAINS A BUG
+	/*
+	if (continueText != null)
+	{
+		if (cursors.down.isDown)
+		{
+			score = 0;
+			continueText.destroy();
+			player.reset(32, game.world.height / 2);
+		}
+	}
+	*/
+	
+	
+}
+
+//player death state
+function kill() {
+	
+	player.kill();
+	obstacles.removeAll();
+	continueText = game.add.text(game.world.width / 3.5, game.world.height / 1.6, 'continue..?', { fontSize: '10px', fill: '#fff' });
+
+}
+
+</script>
+
+</body>
+</html>
