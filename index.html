@@ -32,6 +32,9 @@ var cursors; //keyboard presses
 //for placement variety
 var obstaclePlacement;
 
+//used for mod calculations
+var mod;
+
 //used to space out actions
 var jumpTime = 0;
 var createObstacleTime = 0;
@@ -105,9 +108,17 @@ function update() {
 		//destroys obstacles off screen
 		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
 		{
+			//counts only 1 obstacle passed
+			mod = i % 2;
+			console.log('i =' + i);
+			console.log('mod =' + mod);
+			if (mod == 0)
+			{
+				score++;
+			}
+			
 			obstacles.getAt(i).destroy();
-			score = score + 0.5;
-			console.log(score);
+			scoreText.setText('score: ' + score);
 		}
 	}
 	
