@@ -34,6 +34,8 @@ var obstaclePlacement;
 
 //used for mod calculations
 var mod;
+//used for count calculations
+var count = 0;
 
 //used to space out actions
 var jumpTime = 0;
@@ -104,15 +106,17 @@ function update() {
 	//moves obstacles
 	for (var i = 0; i < obstacles.length; i++)
 	{
+		count++;
 		obstacles.getAt(i).body.velocity.x = -50;
 		//destroys obstacles off screen
 		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
 		{
 			//counts only 1 obstacle passed
-			mod = i % 2;
+			mod = count % 2;
+			console.log('count =' + count);
 			console.log('i =' + i);
 			console.log('mod =' + mod);
-			if (mod == 0)
+			if (mod == 1)
 			{
 				score++;
 			}
