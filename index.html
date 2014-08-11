@@ -107,19 +107,17 @@ function update() {
 		kill();
 	}
 	
-	//reset game
-	// GRAB YOUR FLYSWATTERS CHILDREN, THIS CONTAINS A BUG
-	/*
-	if (continueText != null)
+	//reset game	
+	if (player.alive == false)
 	{
 		if (cursors.down.isDown)
 		{
 			score = 0;
-			continueText.destroy();
+			continueText.setText("");
 			player.reset(32, game.world.height / 2);
 		}
 	}
-	*/
+	
 	
 	
 }
