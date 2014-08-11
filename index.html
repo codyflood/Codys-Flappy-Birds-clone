@@ -66,7 +66,8 @@ function create() {
 
 function update() {
 
-	game.physics.arcade.collide(player, obstacles);
+	// kills player if they overlaps with obstacles
+	game.physics.arcade.overlap(player, obstacles, kill, null, this);
 
 	//player movement
 	{
