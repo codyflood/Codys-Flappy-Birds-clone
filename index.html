@@ -26,9 +26,13 @@ function preload() {
 //variables
 var player;
 var obstacle;
-var obstacles; // used for manipulating obstacle objects
-var cursors; // keyboard presses
+var obstacles; //used for manipulating obstacle objects
+var cursors; //keyboard presses
 
+//for placement variety
+var obstaclePlacement;
+
+//used to space out actions
 var jumpTime = 0;
 var createObstacleTime = 0;
 
@@ -39,7 +43,9 @@ function create() {
 
 	//enable arcade physics
 	game.physics.startSystem(Phaser.Physics.ARCADE);
-
+	
+	
+	
 	//player
 	{
 	//player sprite
@@ -87,8 +93,9 @@ function update() {
 	{
 		if (game.time.now > createObstacleTime)
 		{
-			obstacle = obstacles.create(game.world.width / 2, 0, 'obstacle');
-			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstacle.height, 'obstacle');
+			obstaclePlacement = Math.floor(Math.random() * 160);
+			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstaclePlacement - 200 - 60, 'obstacle');
+			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstaclePlacement , 'obstacle');
 			createObstacleTime = game.time.now + 3000;
 		}
 	}
