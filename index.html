@@ -88,9 +88,7 @@ function update() {
 		if (game.time.now > createObstacleTime)
 		{
 			obstacle = obstacles.create(game.world.width / 2, 0, 'obstacle');
-			obstacle.body.immovable = true;
 			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstacle.height, 'obstacle');
-			obstacle.body.immovable = true;
 			createObstacleTime = game.time.now + 3000;
 		}
 	}
