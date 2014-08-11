@@ -99,6 +99,13 @@ function update() {
 	for (var i = 0; i < obstacles.length; i++)
 	{
 		obstacles.getAt(i).body.velocity.x = -50;
+		//destroys obstacles off screen
+		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
+		{
+			obstacles.getAt(i).destroy();
+			score = score + 0.5;
+			console.log(score);
+		}
 	}
 	
 	//kills player
@@ -107,7 +114,7 @@ function update() {
 		kill();
 	}
 	
-	//reset game	
+		//reset game	
 	if (player.alive == false)
 	{
 		if (cursors.down.isDown)
