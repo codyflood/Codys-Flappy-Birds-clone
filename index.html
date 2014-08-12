@@ -18,9 +18,15 @@ var game = new Phaser.Game(400, 250, Phaser.AUTO, '', { preload: preload, create
 
 function preload() {
 
+	//load sprites
+	{
 	game.load.image('obstacle', 'assets/obstacle.png');
 	game.load.image('player', 'assets/star.png');
 	game.load.image('background', 'assets/background.jpg');
+	}
+	
+	//load audio
+	//game.load.audio('music', ['assets/audio/songnamehere']);
 
 }
 
@@ -41,6 +47,8 @@ var mod;
 //used for count calculations
 var count = 0;
 
+var music;
+
 //used to space out actions
 var jumpTime = 0;
 var createObstacleTime = 0;
@@ -56,6 +64,11 @@ function create() {
 	
 	//background
 	game.add.sprite(0,0,'background');
+	
+	//music.play();
+	
+	//music
+	music = game.add.audio('music');
 	
 	//player
 	{
