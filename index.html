@@ -52,6 +52,8 @@ var music;
 var jumpTime = 0;
 var createObstacleTime = 0;
 
+var topScore = 0;
+var topScoreText;
 var score = 0;
 var scoreText;
 var continueText;
@@ -156,6 +158,7 @@ function update() {
 		{
 			score = 0;
 			scoreText.setText("score: " + score);
+			topScoreText.setText("");
 			continueText.setText("");
 			player.reset(32, game.world.height / 2);
 		}
@@ -168,8 +171,14 @@ function kill() {
 
 	player.kill();
 	obstacles.removeAll();
-	continueText = game.add.text(game.world.width / 3.5, game.world.height / 1.6, 'continue..?', { fontSize: '10px', fill: '#fff' });
+	if (topScore < score)
+	{
+		topScore = score;
+	}
 	
+	//display text
+	topScoreText = game.add.text(game.world.width / 3.7, game.world.height / 1.6, 'top score: ' + topScore, { fontSize: '10px', fill: '#fff' });
+	continueText = game.add.text(game.world.width / 3.5, game.world.height / 1.3, 'continue..?', { fontSize: '10px', fill: '#fff' });
 }
 
 </script>
