@@ -25,8 +25,8 @@ function preload() {
 	game.load.image('background', 'assets/background.jpg');
 	}
 	
-	//load audio
-	//game.load.audio('music', ['assets/audio/songnamehere']);
+	//load audio. Firefox does not support mp3
+	game.load.audio('music', ['assets/audio/AlexBeroza_-_Drive.mp3', 'assets/audio/AlexBeroza_-_Drive.ogg']);
 
 }
 
@@ -73,9 +73,7 @@ function create() {
 	
 	//background
 	game.add.sprite(0,0,'background');
-	
-	//music.play();
-	
+		
 	//music
 	music = game.add.audio('music');
 	
@@ -115,6 +113,7 @@ function update() {
 	{
 		if (spaceKey.isDown)
 		{
+			music.play('', 0, 1, true);
 			mainMenu = false;
 			//score text
 			mainMenuText.setText("");
@@ -124,14 +123,16 @@ function update() {
 	}
 	else
 	{
+		//resets game
 		if(escKey.isDown)
 		{
+			music.stop();
 			player.kill();
 			obstacles.removeAll();
 			score = 0;
 			scoreText.setText("");
 			
-			// two ifs prevent unitialized error
+			//two ifs prevent unitialized error
 			if (continueText != null)
 			{
 				continueText.setText("");
@@ -197,11 +198,12 @@ function update() {
 		kill();
 	}
 	
-		//reset game	
+	//continue game	
 	if (player.alive == false && !mainMenu)
 	{
 		if (spaceKey.isDown)
 		{
+			music.play('', 0, 1, true);
 			score = 0;
 			scoreText.setText("score: " + score);
 			topScoreText.setText("");
@@ -215,6 +217,7 @@ function update() {
 //player death state
 function kill() {
 
+	music.stop();
 	player.kill();
 	obstacles.removeAll();
 	if (topScore < score)
