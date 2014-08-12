@@ -144,6 +144,7 @@ function update() {
 		if (cursors.down.isDown)
 		{
 			score = 0;
+			scoreText.setText("score: " + score);
 			continueText.setText("");
 			player.reset(32, game.world.height / 2);
 		}
