@@ -28,7 +28,10 @@ function preload() {
 var player;
 var obstacle;
 var obstacles; //used for manipulating obstacle objects
-var cursors; //keyboard presses
+
+//keyboard controls
+var cursors;
+var spaceKey;
 
 //for placement variety
 var obstaclePlacement;
@@ -72,6 +75,7 @@ function create() {
 
 	//keyboard controls
     cursors = game.input.keyboard.createCursorKeys();
+	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	
 	//score text
 	scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });
@@ -88,7 +92,7 @@ function update() {
 		//limits jumping
 		if (game.time.now > jumpTime)
 		{
-			if (cursors.up.isDown)
+			if (cursors.up.isDown || spaceKey.isDown)
 			{
 				player.body.velocity.y = -100;
 				jumpTime = game.time.now + 500;
