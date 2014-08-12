@@ -117,9 +117,9 @@ function update() {
 		if (game.time.now > createObstacleTime)
 		{
 			obstaclePlacement = Math.floor(Math.random() * 160);
-			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstaclePlacement - 200 - 60, 'obstacle');
-			obstacle = obstacles.create(game.world.width / 2, game.world.height - obstaclePlacement , 'obstacle');
-			createObstacleTime = game.time.now + 3000;
+			obstacle = obstacles.create(game.world.width, game.world.height - obstaclePlacement - 200 - 60, 'obstacle');
+			obstacle = obstacles.create(game.world.width, game.world.height - obstaclePlacement , 'obstacle');
+			createObstacleTime = game.time.now + 2000;
 		}
 	}
 	
@@ -127,7 +127,7 @@ function update() {
 	for (var i = 0; i < obstacles.length; i++)
 	{
 		count++;
-		obstacles.getAt(i).body.velocity.x = -50;
+		obstacles.getAt(i).body.velocity.x = -100;
 		//destroys obstacles off screen
 		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
 		{
