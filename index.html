@@ -20,6 +20,7 @@ function preload() {
 
 	game.load.image('obstacle', 'assets/obstacle.png');
 	game.load.image('player', 'assets/star.png');
+	game.load.image('background', 'assets/background.jpg');
 
 }
 
@@ -43,11 +44,15 @@ var createObstacleTime = 0;
 
 var score = 0;
 var scoreText;
+var continueText;
 
 function create() {
 
 	//enable arcade physics
 	game.physics.startSystem(Phaser.Physics.ARCADE);
+	
+	//background
+	game.add.sprite(0,0,'background');
 	
 	//player
 	{
