@@ -27,6 +27,7 @@ function preload() {
 	
 	//load audio. Firefox does not support mp3
 	game.load.audio('music', ['assets/audio/AlexBeroza_-_Drive.mp3', 'assets/audio/AlexBeroza_-_Drive.ogg']);
+	game.load.audio('thud', ['assets/audio/thud.mp3', 'assets/audio/thud.ogg']);
 
 }
 
@@ -49,6 +50,7 @@ var mod;
 var count = 0;
 
 var music;
+var thud;
 
 //used to manipulate main menu
 var mainMenu = true;
@@ -74,8 +76,9 @@ function create() {
 	//background
 	game.add.sprite(0,0,'background');
 		
-	//music
+	//sounds
 	music = game.add.audio('music');
+	thud = game.add.audio('thud');
 	
 	//keyboard controls
 	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -218,6 +221,7 @@ function update() {
 function kill() {
 
 	music.stop();
+	thud.play();
 	player.kill();
 	obstacles.removeAll();
 	if (topScore < score)
