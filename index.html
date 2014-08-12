@@ -31,12 +31,14 @@ function preload() {
 }
 
 //variables
+{
 var player;
 var obstacle;
 var obstacles; //used for manipulating obstacle objects
 
 //keyboard controls
 var spaceKey;
+var escKey;
 
 //for placement variety
 var obstaclePlacement;
@@ -48,15 +50,21 @@ var count = 0;
 
 var music;
 
+//used to manipulate main menu
+var mainMenu = true;
+var mainMenuText;
+
 //used to space out actions
 var jumpTime = 0;
 var createObstacleTime = 0;
 
+//score variables
 var topScore = 0;
 var topScoreText;
 var score = 0;
 var scoreText;
 var continueText;
+}
 
 function create() {
 
@@ -71,6 +79,12 @@ function create() {
 	//music
 	music = game.add.audio('music');
 	
+	//keyboard controls
+	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+	
+	mainMenuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
+	
 	//player
 	{
 	//player sprite
@@ -81,18 +95,14 @@ function create() {
 	
 	//player physics properties
 	player.body.gravity.y = 200;
+	
+	player.kill();
 	}
 	
 	//obstacles
 	obstacles = game.add.group();
 	obstacles.enableBody = true;
-
-	//keyboard controls
-	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	
-	//score text
-	scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });
-
 }
 
 function update() {
@@ -100,6 +110,42 @@ function update() {
 	// kills player if they overlaps with obstacles
 	game.physics.arcade.overlap(player, obstacles, kill, null, this);
 
+	//main menu
+	if (mainMenu)
+	{
+		if (spaceKey.isDown)
+		{
+			mainMenu = false;
+			//score text
+			mainMenuText.setText("");
+			scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });		
+			player.reset(32, game.world.height / 2);
+		}
+	}
+	else
+	{
+		if(escKey.isDown)
+		{
+			player.kill();
+			obstacles.removeAll();
+			score = 0;
+			scoreText.setText("");
+			
+			// two ifs prevent unitialized error
+			if (continueText != null)
+			{
+				continueText.setText("");
+			}
+			if (topScore != 0)
+			{
+				topScore = 0;
+				topScoreText.setText("");
+			}
+			mainMenuText.setText("Press Space to Play");
+			mainMenu = true;
+		}
+	}
+	
 	//player movement
 	{
 		//limits jumping
@@ -152,7 +198,7 @@ function update() {
 	}
 	
 		//reset game	
-	if (player.alive == false)
+	if (player.alive == false && !mainMenu)
 	{
 		if (spaceKey.isDown)
 		{
