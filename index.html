@@ -36,7 +36,6 @@ var obstacle;
 var obstacles; //used for manipulating obstacle objects
 
 //keyboard controls
-var cursors;
 var spaceKey;
 
 //for placement variety
@@ -87,7 +86,6 @@ function create() {
 	obstacles.enableBody = true;
 
 	//keyboard controls
-    cursors = game.input.keyboard.createCursorKeys();
 	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	
 	//score text
@@ -105,7 +103,7 @@ function update() {
 		//limits jumping
 		if (game.time.now > jumpTime)
 		{
-			if (cursors.up.isDown || spaceKey.isDown)
+			if (spaceKey.isDown)
 			{
 				player.body.velocity.y = -100;
 				jumpTime = game.time.now + 500;
@@ -154,7 +152,7 @@ function update() {
 		//reset game	
 	if (player.alive == false)
 	{
-		if (cursors.down.isDown)
+		if (spaceKey.isDown)
 		{
 			score = 0;
 			scoreText.setText("score: " + score);
