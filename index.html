@@ -40,6 +40,7 @@ var obstacles; //used for manipulating obstacle objects
 //keyboard controls
 var spaceKey;
 var escKey;
+var cKey
 
 //for placement variety
 var obstaclePlacement;
@@ -55,6 +56,8 @@ var thud;
 //used to manipulate main menu
 var mainMenu = true;
 var mainMenuText;
+var credits = false;
+var creditsText;
 
 //used to space out actions
 var jumpTime = 0;
@@ -83,6 +86,7 @@ function create() {
 	//keyboard controls
 	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+	cKey = game.input.keyboard.addKey(Phaser.Keyboard.C);
 	
 	mainMenuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
 	
@@ -108,20 +112,28 @@ function create() {
 
 function update() {
 
-	// kills player if they overlaps with obstacles
+	//kills player if they overlaps with obstacles
 	game.physics.arcade.overlap(player, obstacles, kill, null, this);
 
 	//main menu
-	if (mainMenu)
+	if (mainMenu && !credits)
 	{
 		if (spaceKey.isDown)
 		{
-			music.play('', 0, 1, true);
+			music.play('', 0, 1, true); //should loop music?
 			mainMenu = false;
 			//score text
 			mainMenuText.setText("");
 			scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });		
 			player.reset(32, game.world.height / 2);
+		}
+		else if (cKey.isDown)
+		{
+			mainMenu = false;
+			credits = true;
+			mainMenuText.setText("");
+			creditsText = game.add.text(10, game.world.height / 2,
+				'Audio provided by Alex Beroza and Gregory Weir under creative commons license', { font: '10px ARIAL', fill: '#fff' });
 		}
 	}
 	else
@@ -147,6 +159,7 @@ function update() {
 			}
 			mainMenuText.setText("Press Space to Play");
 			mainMenu = true;
+			credits = false;
 		}
 	}
 	
@@ -202,11 +215,11 @@ function update() {
 	}
 	
 	//continue game	
-	if (player.alive == false && !mainMenu)
+	if (player.alive == false && !mainMenu && !credits)
 	{
 		if (spaceKey.isDown)
 		{
-			music.play('', 0, 1, true);
+			music.play('', 0, 1, true); //should loop music?
 			score = 0;
 			scoreText.setText("score: " + score);
 			topScoreText.setText("");
