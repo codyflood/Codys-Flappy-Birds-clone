@@ -107,7 +107,8 @@ function create() {
 	//obstacles
 	obstacles = game.add.group();
 	obstacles.enableBody = true;
-	
+	//Adds a property has scored to obstacles
+	obstacles.hasScored = false;
 }
 
 function update() {
@@ -185,6 +186,7 @@ function update() {
 			obstacle = obstacles.create(game.world.width, game.world.height - obstaclePlacement - 200 - 60, 'obstacle');
 			obstacle = obstacles.create(game.world.width, game.world.height - obstaclePlacement , 'obstacle');
 			createObstacleTime = game.time.now + 2000;
+			
 		}
 	}
 	
@@ -197,13 +199,26 @@ function update() {
 		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
 		{
 			//counts only 1 obstacle passed
-			mod = count % 2;
-			if (mod == 1)
-			{
-				score++;
-			}
+			//mod = count % 2;
+			//if (mod == 1)
+			//{
+			//	score++;
+			//}
 			
 			obstacles.getAt(i).destroy();
+			//scoreText.setText('score: ' + score);
+		}
+
+		//so if the player hits a specific position x just before an obstacle it'll reset the hasScored to false
+		if(player.world.x >= obstacles.getAt(i).x - 2 && player.world.x <= obstacles.getAt(i).x - 1) {
+			obstacles.hasScored = false;
+		}
+
+		//if the player hits the x position of the obstacle and if the hasScored is false. 
+		//Will increment 1 score and make the hasScored to true so the increment will only happen once
+		if(obstacles.getAt(i).x <= player.world.x && !obstacles.hasScored) {
+			obstacles.hasScored = true;
+			score++;
 			scoreText.setText('score: ' + score);
 		}
 	}
