@@ -37,10 +37,8 @@ var player;
 var obstacle;
 var obstacles; //used for manipulating obstacle objects
 
-//keyboard controls
-var spaceKey;
-var escKey;
-var cKey
+//touch controls
+var touch;
 
 //for placement variety
 var obstaclePlacement;
@@ -82,9 +80,7 @@ function create() {
 	thud = game.add.audio('thud');
 	
 	//keyboard controls
-	spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-	cKey = game.input.keyboard.addKey(Phaser.Keyboard.C);
+	touch = game.input.touch.add();
 	
 	menuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
 	
