@@ -54,10 +54,8 @@ var music;
 var thud;
 
 //used to manipulate main menu
-var mainMenu = true;
-var mainMenuText;
-var credits = false;
-var creditsText;
+var menu = [ "main menu", "credits", "game" ];
+var menuText;
 
 //used to space out actions
 var jumpTime = 0;
@@ -88,7 +86,10 @@ function create() {
 	escKey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 	cKey = game.input.keyboard.addKey(Phaser.Keyboard.C);
 	
-	mainMenuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
+	menuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
+	
+	// initializes menu in main menu state
+	menu.state = menu[0];
 	
 	//player
 	{
@@ -114,26 +115,25 @@ function create() {
 function update() {
 
 	//kills player if they overlaps with obstacles
-	game.physics.arcade.overlap(player, obstacles, kill, null, this);
-
-	//main menu
-	if (mainMenu && !credits)
+	game.physics.arcade.overlap(player, obstacles, kill, null, this);	
+	
+	//menu states
+	if (menu.state == menu[0])
 	{
 		if (spaceKey.isDown)
 		{
-			music.play('', 0, 1, true); //should loop music?
-			mainMenu = false;
+			music.play('', 0, 1, true);
+			menu.state = menu[2]; // sets state to game
 			//score text
-			mainMenuText.setText("");
+			menuText.setText("");
 			scoreText = game.add.text(game.world.width / 3, game.world.height / 2, 'score: ' + score, { fontSize: '10px', fill: '#fff' });		
 			player.reset(32, game.world.height / 2);
 		}
 		else if (cKey.isDown)
 		{
-			mainMenu = false;
-			credits = true;
-			mainMenuText.setText("");
-			creditsText = game.add.text(10, game.world.height / 2,
+			menu.state = menu[1]; // sets state to credits
+			menuText.setText("");
+			menuText = game.add.text(10, game.world.height / 2,
 				'Audio provided by Alex Beroza and Gregory Weir under creative commons license', { font: '10px ARIAL', fill: '#fff' });
 		}
 	}
@@ -158,9 +158,9 @@ function update() {
 				topScore = 0;
 				topScoreText.setText("");
 			}
-			mainMenuText.setText("Press Space to Play");
-			mainMenu = true;
-			credits = false;
+			menuText.setText(""); // clears text before setting it, needed to prevent overlapping
+			menuText = game.add.text(game.world.width / 6, game.world.height / 2.25, "Press Space to Play", { fontSize: '10px', fill: '#fff' });
+			menu.state = menu[0]; // sets state to main menu
 		}
 	}
 	
@@ -230,11 +230,11 @@ function update() {
 	}
 	
 	//continue game	
-	if (player.alive == false && !mainMenu && !credits)
+	if (player.alive == false && menu == 2)
 	{
 		if (spaceKey.isDown)
 		{
-			music.play('', 0, 1, true); //should loop music?
+			music.play('', 0, 1, true);
 			score = 0;
 			scoreText.setText("score: " + score);
 			topScoreText.setText("");
