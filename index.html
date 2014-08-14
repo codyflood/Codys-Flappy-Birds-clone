@@ -206,7 +206,7 @@ function update() {
 		}
 
 		//so if the player hits a specific position x just before an obstacle it'll reset the hasScored to false
-		if(player.world.x >= obstacles.getAt(i).x - 2 && player.world.x <= obstacles.getAt(i).x - 1) {
+		if(player.world.x >= obstacles.getAt(i).x - 5 && player.world.x <= obstacles.getAt(i).x - 1) {
 			obstacles.hasScored = false;
 		}
 
