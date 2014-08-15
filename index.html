@@ -198,15 +198,7 @@ function update() {
 		//destroys obstacles off screen
 		if (obstacles.getAt(i).x < -obstacles.getAt(i).width)
 		{
-			//counts only 1 obstacle passed
-			//mod = count % 2;
-			//if (mod == 1)
-			//{
-			//	score++;
-			//}
-			
 			obstacles.getAt(i).destroy();
-			//scoreText.setText('score: ' + score);
 		}
 
 		//so if the player hits a specific position x just before an obstacle it'll reset the hasScored to false
