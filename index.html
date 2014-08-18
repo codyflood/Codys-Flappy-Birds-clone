@@ -112,10 +112,21 @@ function create() {
 	obstacles.hasScored = false;
 }
 
+function render() {
+
+    //Just renders out the pointer data when you touch the canvas
+	//touch control
+	touch = game.input.activePointer;
+	console.log(touch);
+
+}
+
 function update() {
 
 	//kills player if they overlaps with obstacles
 	game.physics.arcade.overlap(player, obstacles, kill, null, this);	
+	
+	render();
 	
 	//menu states
 	if (menu.state == menu[0])
@@ -227,7 +238,7 @@ function update() {
 	}
 	
 	//continue game	
-	if (player.alive == false && menu == 2)
+	if (player.alive == false && menu.state == menu[2])
 	{
 		if (touch.isDown)
 		{
