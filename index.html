@@ -153,7 +153,7 @@ function update() {
 			{
 				continueText.setText("");
 			}
-			if (topScore != 0)
+			if (topScore > -1)
 			{
 				topScore = 0;
 				topScoreText.setText("");
@@ -222,7 +222,7 @@ function update() {
 	}
 	
 	//continue game	
-	if (player.alive == false && menu == 2)
+	if (player.alive == false && menu.state == menu[2])
 	{
 		if (spaceKey.isDown)
 		{
